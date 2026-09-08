@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>נטורה סטודיו — אתרי חוויה לעסקים</title>
+<meta name="description" content="נטורה סטודיו בונה לעסקים אתרי חוויה עם תלת מימד ותנועה. שלחו תמונות וקבלו סצנה אחת בחינם.">
+<meta property="og:title" content="נטורה סטודיו — אתרי חוויה לעסקים">
+<meta property="og:description" content="אתר רואים. חוויה זוכרים.">
+<meta property="og:image" content="hero-poster.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23080B12'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%23CDB88C' stroke-width='2'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' fill='%23CDB88C' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Heebo:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080B12; --bg2:#060810; --ink:#F0EBE1;
+    --mut:rgba(240,235,225,.55); --dim:rgba(240,235,225,.34);
+    --acc:#CDB88C; --hair:rgba(240,235,225,.14);
+    --glass:rgba(240,235,225,.10); --glass-line:rgba(240,235,225,.26);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--ink);font-family:"Heebo",system-ui,sans-serif;
+    font-weight:300;line-height:1.75;overflow-x:hidden}
+  .wrap{max-width:520px;margin:0 auto;padding:0 26px}
+
+  header{position:absolute;top:0;right:0;left:0;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;padding:20px 26px}
+  .logo{font-family:"Cormorant Garamond",serif;letter-spacing:.3em;font-size:17px;font-weight:500}
+  .logo small{display:block;font-size:8px;letter-spacing:.5em;color:var(--mut);margin-top:2px}
+  .top{font-size:13px;color:var(--mut);text-decoration:none}
+
+  .hero{position:relative;min-height:94vh;display:flex;align-items:flex-end;overflow:hidden}
+  .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:.82;filter:saturate(.92) blur(.5px);transform:scale(1.06)}
+  .hero .veil{position:absolute;inset:0;background:
+    linear-gradient(to bottom, rgba(8,11,18,.9) 0%, rgba(8,11,18,.1) 32%, rgba(8,11,18,.7) 70%, var(--bg) 97%)}
+  .hero-in{position:relative;z-index:5;width:100%;max-width:520px;margin:0 auto;padding:0 26px 64px}
+  h1{font-weight:200;font-size:46px;line-height:1.18;letter-spacing:-.02em;margin-bottom:22px}
+  .hero p{font-size:15px;color:var(--mut);max-width:26ch;margin-bottom:36px;line-height:1.8}
+
+  .cta{display:block;width:100%;font-family:inherit;cursor:pointer;text-decoration:none;text-align:center;font-size:14.5px;font-weight:400;
+    color:var(--ink);padding:17px 18px;border-radius:3px;
+    background:linear-gradient(180deg,rgba(240,235,225,.16),rgba(240,235,225,.07));
+    border:1px solid var(--glass-line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .cta.solid{background:linear-gradient(180deg,rgba(240,235,225,.30),rgba(240,235,225,.16));
+    border-color:rgba(240,235,225,.45);font-weight:400}
+  .cta.quiet{background:none;border:none;color:var(--mut);font-size:14px;padding:15px}
+  .btns{display:grid;gap:6px}
+
+  section{padding:94px 0}
+  .kick{font-size:12px;color:var(--acc);margin-bottom:16px}
+  h2{font-weight:200;font-size:33px;line-height:1.25;letter-spacing:-.02em;margin-bottom:18px}
+  .lead{font-size:15px;color:var(--mut);margin-bottom:32px;max-width:30ch;line-height:1.85}
+
+  .shot{width:100%;aspect-ratio:4/5;border-radius:4px;margin-bottom:30px;
+    background:linear-gradient(160deg,#0E1520,#080B12);border:1px solid var(--hair);
+    display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--dim);
+    text-align:center;overflow:hidden;position:relative}
+  .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .shot img+span{display:none}
+  .shot.wide{aspect-ratio:16/10;margin-bottom:16px}
+
+  .half{padding:26px 0;border-top:1px solid var(--hair)}
+  .half:last-child{border-bottom:1px solid var(--hair)}
+  .half h3{font-weight:400;font-size:15px;margin-bottom:12px;color:var(--dim)}
+  .half.on h3{color:var(--acc)}
+  .half ul{list-style:none;font-size:15px;line-height:2.05}
+  .half:not(.on) ul{color:var(--mut)}
+
+  .card{margin-bottom:44px}
+  .card h3{font-family:"Cormorant Garamond",serif;font-size:27px;font-weight:500;
+    letter-spacing:.07em;margin-bottom:6px}
+  .card p{font-size:14.5px;color:var(--mut);margin-bottom:14px}
+  .link{font-size:14px;color:var(--acc);text-decoration:none;
+    border-bottom:1px solid rgba(205,184,140,.35);padding-bottom:3px}
+
+  .free{font-size:20px;color:var(--acc);margin:-8px 0 32px}
+  .step{display:flex;gap:16px;padding:18px 0;border-top:1px solid var(--hair)}
+  .step:last-of-type{border-bottom:1px solid var(--hair)}
+  .step .n{font-family:"Cormorant Garamond",serif;font-variant-numeric:lining-nums;
+    font-size:15px;color:var(--acc);min-width:16px;padding-top:3px}
+  .step p{font-size:15px;line-height:1.7}
+  .limit{font-size:13px;color:var(--mut);margin:22px 0 28px}
+
+  .q{border-top:1px solid var(--hair);padding:18px 0}
+  .q:last-child{border-bottom:1px solid var(--hair)}
+  .q summary{font-weight:400;font-size:15px;list-style:none;cursor:pointer;
+    display:flex;justify-content:space-between;gap:14px;align-items:center}
+  .q summary::-webkit-details-marker{display:none}
+  .q summary::after{content:"+";color:var(--acc);font-size:16px}
+  .q[open] summary::after{content:"\2212"}
+  .q p{font-size:14.5px;color:var(--mut);margin-top:10px}
+
+  .field{margin-bottom:22px}
+  .field label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:6px}
+  .field input{width:100%;background:none;border:0;border-bottom:1px solid var(--hair);
+    color:var(--ink);font-family:inherit;font-size:16px;font-weight:300;padding:9px 2px}
+  .check{display:flex;align-items:center;gap:11px;font-size:14px;color:var(--mut);margin:26px 0 26px}
+  .box{width:16px;height:16px;border:1px solid var(--glass-line);border-radius:2px;flex:none}
+  .or{text-align:center;font-size:13.5px;color:var(--mut);margin-top:20px}
+  .or a{color:var(--acc);text-decoration:none}
+
+  footer{padding:52px 0 96px;text-align:center;border-top:1px solid var(--hair)}
+  .fname{font-family:"Cormorant Garamond",serif;font-size:21px;letter-spacing:.3em}
+  .fsub{font-size:8px;letter-spacing:.5em;color:var(--mut);margin-bottom:24px}
+  footer a{display:block;font-size:14px;color:var(--mut);text-decoration:none;margin:8px 0}
+
+  .wa{position:fixed;left:18px;bottom:18px;z-index:40;width:50px;height:50px;border-radius:50%;
+    background:rgba(240,235,225,.10);border:1px solid var(--glass-line);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    display:flex;align-items:center;justify-content:center}
+  .wa svg{width:24px;height:24px;fill:var(--ink);opacity:.9}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .hero video{display:none}
+    .hero{background:url(hero-poster.jpg) center/cover}
+  }
+  @media (min-width:760px){
+    .wrap,.hero-in{max-width:620px}
+    h1{font-size:58px} h2{font-size:38px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">NETORA<small>STUDIO</small></div>
+  <a class="top" href="#form">דברו איתי</a>
+</header>
+
+<div class="hero">
+  <video src="hero.mp4" poster="hero-poster.jpg" autoplay muted loop playsinline></video>
+  <div class="veil"></div>
+  <div class="hero-in">
+    <h1>אתר רואים.<br>חוויה זוכרים.</h1>
+    <p>נטורה סטודיו בונה לעסקים אתרים שנראים כמו כלום אחר ברשת.</p>
+    <div class="btns">
+      <a class="cta solid" href="#form">שלחו תמונות — קבלו סצנה בחינם</a>
+      <a class="cta quiet" href="#works">לצפייה בעבודות</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="shot"><img src="alta.jpg" alt="אתר אלטה" onerror="this.remove()"><span>צילום המסך של אלטה</span></div>
+    <div class="kick">אלטה, פרויקט נדל״ן</div>
+    <h2>זה לא סרטון.<br>זה אתר אמיתי.</h2>
+    <p class="lead">כל תזוזה על המסך היא גלילה של המשתמש. אפשר להיכנס אליו עכשיו מהטלפון ולנסות בעצמכם.</p>
+    <a class="cta" href="https://noamel1407-oss.github.io/real-estate-mockap" target="_blank" rel="noopener">כניסה לאתר החי</a>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>ההבדל בין אתר לחוויה</h2>
+    <div class="half">
+      <h3>אתר רגיל</h3>
+      <ul><li>תמונות סטטיות</li><li>נראה כמו של המתחרים</li><li>גולש עובר ושוכח</li></ul>
+    </div>
+    <div class="half on">
+      <h3>חוויה של נטורה</h3>
+      <ul><li>העסק הופך למקום שנכנסים אליו</li><li>כל גלילה מזיזה את המצלמה</li><li>אנשים שולחים את הקישור הלאה</li></ul>
+    </div>
+  </div>
+</section>
+
+<section id="works">
+  <div class="wrap">
+    <h2>עבודות</h2>
+    <div class="card">
+      <div class="shot wide"><img src="alta-wide.jpg" alt="אתר אלטה" onerror="this.remove()"><span>צילום מסך — אלטה</span></div>
+      <h3>ALTA Sky Residence</h3>
+      <p>אתר חוויה לפרויקט נדל״ן — סיור גלילה מהרחוב אל תוך הפנטהאוז.</p>
+      <a class="link" href="https://noamel1407-oss.github.io/real-estate-mockap" target="_blank" rel="noopener">לצפייה באתר</a>
+    </div>
+    <div class="card">
+      <div class="shot wide"><img src="shay.jpg" alt="אתר שי" onerror="this.remove()"><span>צילום מסך — שי</span></div>
+      <h3>SHAY Jewelry</h3>
+      <p>אתר תכשיטים עם טבעת תלת ממדית שמלווה את הגלילה לאורך כל הדף.</p>
+      <a class="link" href="https://www.shaijewelry.site/" target="_blank" rel="noopener">לצפייה באתר</a>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>רוצים לראות איך זה נראה עם העסק שלכם?</h2>
+    <div class="free">סצנה אחת מהחומרים שלכם — בחינם</div>
+    <div class="step"><div class="n">1</div><p>שולחים תמונות או רנדרים של העסק או הפרויקט.</p></div>
+    <div class="step"><div class="n">2</div><p>אני בונה מהם סצנה אחת אמיתית.</p></div>
+    <div class="step"><div class="n">3</div><p>אם אהבתם — ממשיכים לאתר המלא.</p></div>
+    <p class="limit">שני פרויקטים בחודש בלבד — כל סצנה נבנית ידנית.</p>
+    <a class="cta" href="#form">שלחו תמונות</a>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>שאלות ותשובות</h2>
+    <details class="q" open><summary>כמה זמן לוקח לבנות אתר כזה?</summary>
+      <p>תלוי בהיקף, ובדרך כלל שבועיים עד ארבעה שבועות.</p></details>
+    <details class="q"><summary>כמה זה עולה?</summary>
+      <p>המחיר נקבע לפי היקף הפרויקט. אחרי שיחה קצרה מקבלים הצעה מדויקת.</p></details>
+    <details class="q"><summary>זה עובד טוב בנייד?</summary>
+      <p>כל אתר נבנה קודם כול למסך של הטלפון, ורק אחר כך למחשב.</p></details>
+    <details class="q"><summary>מה צריך להכין מראש?</summary>
+      <p>תמונות או רנדרים באיכות טובה, ולוגו אם יש.</p></details>
+  </div>
+</section>
+
+<section id="form" style="background:var(--bg2)">
+  <div class="wrap">
+    <h2>נשאיר פרטים ונתחיל</h2>
+    <form action="https://formsubmit.co/netora.studio@gmail.com" method="POST">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_subject" value="ליד חדש מדף הנחיתה של נטורה">
+      <input type="hidden" name="_next" value="https://noamel1407-oss.github.io/netora-landing/thanks.html">
+      <div class="field"><label for="n1">שם מלא</label><input id="n1" name="שם" type="text" required></div>
+      <div class="field"><label for="n2">טלפון</label><input id="n2" name="טלפון" type="tel" inputmode="tel" required></div>
+      <div class="field"><label for="n3">תחום העסק</label><input id="n3" name="תחום העסק" type="text"></div>
+      <label class="check"><input type="checkbox" name="יש חומרים" value="כן" style="width:16px;height:16px;accent-color:#CDB88C">יש לי כבר תמונות או רנדרים</label>
+      <button class="cta solid" type="submit">שליחה</button>
+    </form>
+    <p class="or">או דברו איתי ישירות ב<a href="https://wa.me/972544500539?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%20%D7%A0%D7%98%D7%95%D7%A8%D7%94%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D" target="_blank" rel="noopener">וואטסאפ</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="fname">NETORA</div>
+  <div class="fsub">STUDIO</div>
+  <a href="https://wa.me/972544500539?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%20%D7%A0%D7%98%D7%95%D7%A8%D7%94%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D" target="_blank" rel="noopener">וואטסאפ — 054-450-0539</a>
+  <a href="mailto:netora.studio@gmail.com">netora.studio@gmail.com</a>
+  <a href="https://www.instagram.com/netora._studio/" target="_blank" rel="noopener">אינסטגרם — netora._studio@</a>
+</footer>
+
+<a class="wa" href="https://wa.me/972544500539?text=%D7%94%D7%99%D7%99%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%20%D7%A0%D7%98%D7%95%D7%A8%D7%94%20%D7%95%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D" target="_blank" rel="noopener" aria-label="וואטסאפ"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5s.8 2 .9 2.1c.1.2.1.3 0 .5s-.2.4-.3.5l-.4.5c-.2.2-.3.3-.1.6s.7 1.3 1.6 2c1.1.9 2 1.2 2.3 1.4.3.1.4.1.6-.1s.7-.8.9-1.1c.2-.3.4-.2.6-.1s1.6.8 1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.4z"/></svg></a>
+
+</body>
+</html>
