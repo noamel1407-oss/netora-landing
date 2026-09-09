@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0B0C">
+<title>Netora Studio — אנחנו בונים עולמות</title>
+<meta name="description" content="אתרי יוקרה עם תנועה, עומק ותחושה של סרט, לעסקים שרוצים שיזכרו אותם.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Heebo:wght@200;300;400;500&display=swap">
+<link rel="preload" as="image" href="poster.jpg">
+<link rel="preload" as="image" href="sheet-1.jpg">
+
+<style>
+  :root{
+    --bg:#0B0B0C;
+    --champagne:#D9C6A3;
+    --champagne-lit:#EBD9B4;
+    --muted:#8A8474;
+    --text:#EFEBE3;
+    --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --sans:"Heebo",-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+
+  html{background:var(--bg);-webkit-text-size-adjust:100%}
+  /* scroll stays locked until the first sheet is decoded */
+  html.is-locked,html.is-locked body{overflow:hidden;height:100%;touch-action:none}
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+  }
+
+  /* ---------- film layers ---------- */
+
+  /* poster paints instantly, behind the canvas, so the screen is never empty */
+  #poster{
+    position:fixed;inset:0;z-index:0;
+    background:var(--bg) url("poster.jpg") center center / cover no-repeat;
+    transition:opacity .45s ease;
+  }
+  #poster.is-hidden{opacity:0}
+
+  #film{
+    position:fixed;inset:0;z-index:1;
+    display:block;width:100%;height:100%;
+    opacity:0;transition:opacity .45s ease;
+  }
+  #film.is-live{opacity:1}
+
+  /* ---------- hero ---------- */
+
+  .hero{
+    position:fixed;inset:0;z-index:2;
+    display:flex;align-items:center;justify-content:center;
+    will-change:opacity;
+  }
+
+  /* graded scrim sits between the film and the text */
+  .hero__scrim{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      linear-gradient(to bottom,
+        rgba(11,11,12,.78) 0%,
+        rgba(11,11,12,.42) 22%,
+        rgba(11,11,12,.34) 46%,
+        rgba(11,11,12,.66) 74%,
+        rgba(11,11,12,.92) 100%),
+      radial-gradient(120% 78% at 50% 56%, rgba(11,11,12,0) 34%, rgba(11,11,12,.62) 100%);
+  }
+
+  .hero__inner{
+    position:relative;z-index:1;
+    width:100%;max-width:34rem;
+    padding:0 1.6rem calc(1rem + env(safe-area-inset-bottom));
+    text-align:center;
+  }
+
+  .eyebrow{
+    margin:0 0 1.35rem;
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(.72rem,3.1vw,.86rem);
+    letter-spacing:.46em;
+    text-indent:.46em; /* balances the trailing letter-space in a centred line */
+    text-transform:uppercase;
+    color:var(--champagne);
+    opacity:.92;
+    direction:ltr;
+  }
+
+  .title{
+    margin:0;
+    font-family:var(--sans);
+    font-weight:200;
+    font-size:clamp(1.95rem,8.4vw,3.1rem);
+    line-height:1.24;
+    letter-spacing:-.005em;
+    color:var(--text);
+    text-wrap:balance;
+    text-shadow:0 1px 28px rgba(0,0,0,.55);
+  }
+  .title em{font-style:normal;font-weight:300;color:var(--champagne)}
+
+  .rule{
+    width:2.6rem;height:1px;margin:1.6rem auto;border:0;
+    background:linear-gradient(to left,transparent,var(--champagne),transparent);
+    opacity:.75;
+  }
+
+  .sub{
+    margin:0 auto;max-width:26rem;
+    font-size:clamp(.94rem,3.9vw,1.06rem);
+    font-weight:300;line-height:1.75;
+    color:var(--muted);
+    text-wrap:pretty;
+  }
+
+  .actions{
+    display:flex;flex-direction:column;align-items:stretch;
+    gap:.8rem;margin-top:2.15rem;
+  }
+
+  .btn{
+    -webkit-appearance:none;appearance:none;
+    display:inline-flex;align-items:center;justify-content:center;
+    min-height:3.35rem;padding:.9rem 1.6rem;
+    font-family:var(--sans);font-size:1rem;font-weight:400;
+    letter-spacing:.012em;
+    border-radius:2rem;cursor:pointer;
+    transition:transform .25s ease,background-color .25s ease,border-color .25s ease;
+  }
+  .btn:active{transform:scale(.985)}
+
+  .btn--glass{
+    background:rgba(217,198,163,.07);
+    border:1px solid rgba(217,198,163,.42);
+    color:var(--champagne-lit);
+    -webkit-backdrop-filter:blur(9px) saturate(120%);
+    backdrop-filter:blur(9px) saturate(120%);
+  }
+
+  .btn--solid{
+    background:var(--champagne-lit);
+    border:1px solid var(--champagne-lit);
+    color:#141312;
+    font-weight:500;
+    box-shadow:0 8px 30px rgba(235,217,180,.16);
+  }
+
+  /* ---------- scroll runway ---------- */
+  .runway{height:320vh}
+
+  /* ---------- loading line ---------- */
+  #loadbar{
+    position:fixed;top:0;inset-inline-start:0;z-index:60;
+    height:2px;width:0;
+    background:linear-gradient(to left,var(--champagne),var(--champagne-lit));
+    transition:width .16s linear,opacity .45s ease .25s;
+    pointer-events:none;
+  }
+  #loadbar.is-done{opacity:0}
+
+  /* ---------- whatsapp ---------- */
+  .wa{
+    position:fixed;z-index:70;
+    inset-block-end:calc(1.15rem + env(safe-area-inset-bottom));
+    inset-inline-end:calc(1.15rem + env(safe-area-inset-right));
+    width:3.25rem;height:3.25rem;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(11,11,12,.55);
+    border:1px solid rgba(217,198,163,.34);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    box-shadow:0 6px 24px rgba(0,0,0,.42);
+    color:var(--champagne-lit);
+    transition:transform .25s ease,border-color .25s ease;
+  }
+  .wa:active{transform:scale(.94)}
+  .wa svg{width:1.55rem;height:1.55rem;display:block}
+
+  @media (prefers-reduced-motion:reduce){
+    #poster,#film,.btn,.wa,#loadbar{transition:none}
+  }
+</style>
+</head>
+
+<body>
+
+<div id="poster" aria-hidden="true"></div>
+<canvas id="film" aria-hidden="true"></canvas>
+
+<header class="hero" id="hero">
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <p class="eyebrow">Netora Studio</p>
+
+    <h1 class="title">
+      אנחנו לא בונים אתרים.<br>
+      אנחנו בונים <em>עולמות</em>.
+    </h1>
+
+    <hr class="rule">
+
+    <p class="sub">אתרי יוקרה עם תנועה, עומק ותחושה של סרט, לעסקים שרוצים שיזכרו אותם.</p>
+
+    <div class="actions">
+      <button type="button" class="btn btn--glass">לצפייה בעבודות</button>
+      <button type="button" class="btn btn--solid">אני רוצה סצנה חינם</button>
+    </div>
+  </div>
+</header>
+
+<div class="runway" aria-hidden="true"></div>
+
+<div id="loadbar" aria-hidden="true"></div>
+
+<a class="wa" href="https://wa.me/972544500539" target="_blank" rel="noopener"
+   aria-label="שליחת הודעה בוואטסאפ">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14 0-.31-.01-.47-.01-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/>
+  </svg>
+</a>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- geometry, fixed by the frame pipeline ---------- */
+  var FW = 486, FH = 864;          // one frame
+  var COLS = 4, PER = 32;          // sheet layout: 4 x 8
+  var SHEETS = 4, LAST = 127;      // 128 frames, 0..127
+  var FADE_FROM = 0.14, FADE_TO = 0.24;
+  var DPR_CAP = 2.5;
+
+  var canvas  = document.getElementById('film');
+  var ctx     = canvas.getContext('2d', { alpha: false });
+  var hero    = document.getElementById('hero');
+  var poster  = document.getElementById('poster');
+  var loadbar = document.getElementById('loadbar');
+  var root    = document.documentElement;
+
+  var sheets = new Array(SHEETS);
+  var ready  = [false, false, false, false];
+  var maxFrame = -1;   // highest frame index currently decodable
+  var drawn    = -1;   // frame index currently painted
+  var cssW = 0, cssH = 0;
+  var queued = false;
+  var live = false;
+
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  root.classList.add('is-locked');
+
+  function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+
+  /* ---------- canvas sizing ---------- */
+  function resize() {
+    var w = canvas.clientWidth || window.innerWidth;
+    var h = canvas.clientHeight || window.innerHeight;
+    if (w === cssW && h === cssH) return false;   // ignore iOS URL-bar noise
+    cssW = w; cssH = h;
+    var dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+    canvas.width  = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    drawn = -1;                                    // force a repaint
+    return true;
+  }
+
+  /* ---------- scroll position ---------- */
+  function progress() {
+    var span = root.scrollHeight - window.innerHeight;
+    if (span <= 0) return 0;
+    return clamp((window.pageYOffset || root.scrollTop || 0) / span, 0, 1);
+  }
+
+  /* ---------- painting ---------- */
+  function paint(idx) {
+    var s = (idx / PER) | 0;
+    var img = sheets[s];
+    if (!img) return false;
+    var k  = idx % PER;
+    var sx = (k % COLS) * FW;
+    var sy = ((k / COLS) | 0) * FH;
+
+    // cover: always fill the viewport, never distort
+    var scale = Math.max(cssW / FW, cssH / FH);
+    var dw = FW * scale, dh = FH * scale;
+    ctx.drawImage(img, sx, sy, FW, FH,
+                  (cssW - dw) / 2, (cssH - dh) / 2, dw, dh);
+
+    if (!live) {
+      live = true;
+      canvas.classList.add('is-live');
+      poster.classList.add('is-hidden');
+    }
+    return true;
+  }
+
+  function render() {
+    var p = progress();
+
+    // headline opacity: a pure function of scroll, nothing else
+    var o = 1 - clamp((p - FADE_FROM) / (FADE_TO - FADE_FROM), 0, 1);
+    hero.style.opacity = o;
+    hero.style.pointerEvents = o < 0.02 ? 'none' : '';
+
+    // hold on the last decoded frame rather than ever going blank
+    var want = Math.round(p * LAST);
+    var idx  = want > maxFrame ? maxFrame : want;
+    if (idx < 0 || idx === drawn) return;
+    if (paint(idx)) drawn = idx;
+  }
+
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; render(); });
+  }
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', function () {
+    if (resize()) render(); else schedule();
+  }, { passive: true });
+  window.addEventListener('orientationchange', function () {
+    setTimeout(function () { resize(); render(); }, 120);
+  }, { passive: true });
+
+  /* ---------- loading ---------- */
+  function decode(img) {
+    if (img.decode) {
+      return img.decode().catch(function () { return null; });
+    }
+    return new Promise(function (res) {
+      if (img.complete) return res(null);
+      img.onload = img.onerror = function () { res(null); };
+    });
+  }
+
+  // plain <img> load, used for sheets 2..4 and as the streaming fallback
+  function loadPlain(url) {
+    var img = new Image();
+    img.decoding = 'async';
+    img.src = url;
+    return decode(img).then(function () {
+      return img.naturalWidth ? img : null;
+    });
+  }
+
+  // streamed load so the gold line reflects real bytes
+  function loadStreamed(url, onProgress) {
+    if (!window.fetch || !window.ReadableStream) return loadPlain(url);
+    return fetch(url).then(function (res) {
+      if (!res.ok || !res.body) throw new Error('no stream');
+      var total = +res.headers.get('content-length') || 0;
+      if (!total) throw new Error('no length');
+      var reader = res.body.getReader(), chunks = [], got = 0;
+      return (function pump() {
+        return reader.read().then(function (r) {
+          if (r.done) return chunks;
+          chunks.push(r.value);
+          got += r.value.length;
+          onProgress(got / total);
+          return pump();
+        });
+      })().then(function (parts) {
+        var url2 = URL.createObjectURL(new Blob(parts, { type: 'image/jpeg' }));
+        var img = new Image();
+        img.decoding = 'async';
+        img.src = url2;
+        return decode(img).then(function () {
+          return img.naturalWidth ? img : null;
+        });
+      });
+    }).catch(function () {
+      return loadPlain(url);
+    });
+  }
+
+  function adopt(i, img) {
+    if (!img) return;
+    sheets[i] = img;
+    ready[i] = true;
+    var n = 0;
+    for (var s = 0; s < SHEETS; s++) {       // available frames are a prefix
+      if (!ready[s]) break;
+      n = (s + 1) * PER;
+    }
+    maxFrame = n - 1;
+    drawn = -1;                              // a better frame may now exist
+    render();
+  }
+
+  function unlock() {
+    root.classList.remove('is-locked');
+    loadbar.style.width = '100%';
+    loadbar.classList.add('is-done');
+  }
+
+  function loadRest(i) {
+    if (i >= SHEETS) return;
+    loadPlain('sheet-' + (i + 1) + '.jpg').then(function (img) {
+      adopt(i, img);
+      loadRest(i + 1);                        // strictly in order
+    });
+  }
+
+  function start() {
+    resize();
+    render();                                 // sets hero opacity from scroll
+
+    loadStreamed('sheet-1.jpg', function (f) {
+      loadbar.style.width = (clamp(f, 0, 1) * 100).toFixed(1) + '%';
+    }).then(function (img) {
+      adopt(0, img);
+      unlock();                               // release scroll the moment it is ready
+      loadRest(1);
+    }).catch(function () {
+      unlock();                               // never trap the user behind a failure
+      loadRest(1);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else {
+    start();
+  }
+})();
+</script>
+
+</body>
+</html>
