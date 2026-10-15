@@ -64,12 +64,18 @@ a{color:inherit}
 /* ---------- header ---------- */
 .top{position:fixed;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding-top:calc(env(safe-area-inset-top, 0px) + 12px);padding-bottom:14px;padding-left:var(--gl);padding-right:var(--gr);
-  background:linear-gradient(to bottom, rgba(11,11,12,.82), rgba(11,11,12,0))}
+  background:linear-gradient(to bottom, rgba(11,11,12,.82), rgba(11,11,12,0));transition:background-color .35s}
+.top.solid{background:rgba(11,11,12,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid rgba(217,198,163,.12)}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .mono{width:32px;height:32px;border:1px solid var(--line-strong);border-radius:50%;display:grid;place-items:center;
   font-family:var(--display);font-size:17px;color:var(--champagne-lit);padding-top:2px}
 .word{font-family:var(--display);font-size:15px;letter-spacing:.42em;color:var(--ink);direction:ltr;padding-left:.42em}
 .top-act{display:flex;gap:8px;align-items:center}
+.motion{width:40px;min-height:40px;padding:0}
+.motion svg{width:16px;height:16px}
+.motion .i-play{display:none}
+.motion[aria-pressed="true"] .i-play{display:block}
+.motion[aria-pressed="true"] .i-pause{display:none}
 
 /* ---------- buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:2px;
@@ -115,8 +121,7 @@ h1 em{font-style:normal;color:var(--champagne)}
   background:linear-gradient(to left, rgba(11,11,12,.94) 0%, rgba(11,11,12,.86) 30%, rgba(11,11,12,.35) 44%, rgba(11,11,12,0) 54%)}
 @media (min-width:900px){.scrim{display:block}}
 /* project chapters inside the lantern */
-.work{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;will-change:opacity,transform}
-.work.on{visibility:visible}
+.work{position:absolute;inset:0;opacity:0;pointer-events:none;will-change:opacity,transform}
 .work.on .w-body{pointer-events:auto}
 .w-head{position:absolute;left:calc(var(--gl) + 7vw);right:calc(var(--gr) + 7vw);bottom:34%;text-align:right}
 .w-count{font-family:var(--display);font-size:14px;letter-spacing:.2em;color:var(--champagne);direction:ltr;display:inline-block}
@@ -210,6 +215,13 @@ h1 em{font-style:normal;color:var(--champagne)}
 .field input:focus{outline:none;border-bottom-color:var(--champagne-lit)}
 .field input[dir="ltr"]{text-align:right}
 .err{display:block;min-height:18px;font-size:13px;color:#E8B4A0;margin-top:4px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:#D6CFC1;cursor:pointer;margin-top:2px}
+.consent input{appearance:none;-webkit-appearance:none;flex:none;width:20px;height:20px;margin:1px 0 0;border:1px solid var(--line-strong);background:transparent;display:grid;place-items:center;cursor:pointer}
+.consent input:checked{background:var(--champagne-lit);border-color:var(--champagne-lit)}
+.consent input:checked::after{content:"";width:5px;height:10px;border:solid var(--on-lit);border-width:0 2px 2px 0;transform:translateY(-1px) rotate(45deg)}
+.consent input:focus-visible{outline:1px solid var(--champagne-lit);outline-offset:3px}
+.consent a,.fine a{color:var(--champagne-lit)}
+#e-consent{margin-bottom:10px}
 .send{width:100%;min-height:56px;font-size:16px}
 .fine{font-size:13px;color:var(--muted);margin:12px 0 0;line-height:1.5}
 .back{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;cursor:pointer;padding:6px 0;margin-top:6px}
@@ -225,7 +237,9 @@ h1 em{font-style:normal;color:var(--champagne)}
 /* ---------- footer ---------- */
 .foot{border-top:1px solid var(--line);padding-block:34px calc(env(safe-area-inset-bottom, 0px) + 110px);padding-left:var(--gl);padding-right:var(--gr);background:var(--bg)}
 .foot-in{max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:18px 40px;align-items:center;justify-content:space-between;font-size:14px;color:var(--muted)}
-.foot-in nav{display:flex;gap:22px;flex-wrap:wrap}
+.foot-in nav{display:flex;gap:10px 22px;flex-wrap:wrap}
+.foot-legal{flex-basis:100%;display:flex;flex-wrap:wrap;gap:10px 22px;padding-top:16px;border-top:1px solid var(--line);font-size:13px}
+.foot-note{flex-basis:100%;margin:0;font-size:12px;line-height:1.6;color:var(--muted);max-width:90ch}
 .foot-in a{text-decoration:none;color:#D6CFC1}
 .foot-in a:hover{color:var(--champagne-lit)}
 @media (min-width:900px){.foot{padding-bottom:34px}}
@@ -277,6 +291,7 @@ h1 em{font-style:normal;color:var(--champagne)}
 <header class="top">
   <a class="brand" href="#top" data-go="top" aria-label="Netora Studio, לראש העמוד"><span class="mono">N</span><span class="word">NETORA</span></a>
   <div class="top-act">
+    <button type="button" class="btn btn-glass motion" id="motion" aria-pressed="false" aria-label="עצירת התנועה בדף" title="עצירת התנועה בדף" hidden><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5.5" width="3" height="13" rx=".6"/><rect x="14" y="5.5" width="3" height="13" rx=".6"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.8v12.4a.6.6 0 0 0 .9.5l9.6-6.2a.6.6 0 0 0 0-1L8.9 5.3a.6.6 0 0 0-.9.5z"/></svg></button>
     <a class="btn btn-glass btn-sm hide-sm" href="#offer" data-go="offer">סצנה ראשונה בחינם</a>
     <a class="btn btn-glass btn-sm" id="wa-top" href="https://wa.me/972544500539" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4.5 19.5l1.1-3.6A8 8 0 1 1 8.3 18.6z"/><path d="M9 9.6c.3 1.9 2.1 3.8 4.2 4.4l1.1-1.1 1.8.8-.3 1.5c-3.4.3-7.6-3.6-7.6-7.2l1.5-.4.8 1.8z" fill="currentColor" stroke="none"/></svg>
@@ -443,8 +458,10 @@ h1 em{font-style:normal;color:var(--champagne)}
           <div class="card-top"><h3>לאן לשלוח את הסצנה?</h3><span class="num">2 / 2</span></div>
           <div class="field"><label for="f-name">שם</label><input id="f-name" name="name" autocomplete="name" required><span class="err" id="e-name"></span></div>
           <div class="field"><label for="f-phone">טלפון</label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required><span class="err" id="e-phone"></span></div>
+          <label class="consent" for="f-consent"><input type="checkbox" id="f-consent" name="consent" required><span>קראתי את <a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>, ואני מסכים/ה שתחזרו אליי בוואטסאפ או בטלפון.</span></label>
+          <span class="err" id="e-consent"></span>
           <a class="btn btn-lit send" id="f-send" href="https://wa.me/972544500539" target="_blank" rel="noopener">שלחו לי סצנה בוואטסאפ</a>
-          <p class="fine">הכפתור פותח וואטסאפ עם הודעה מוכנה. נשאר רק ללחוץ שלח.</p>
+          <p class="fine">הכפתור פותח וואטסאפ עם הודעה מוכנה, ועותק של הפרטים נשלח למייל של הסטודיו דרך שירות הטפסים FormSubmit. אין חובה חוקית למסור את הפרטים, אבל בלעדיהם לא נוכל לחזור אליכם. נשתמש בהם רק כדי לחזור אליכם בעניין הפנייה, ותוכלו לעיין בהם ולבקש לתקן או למחוק אותם. כל הפרטים ב<a href="privacy.html" target="_blank" rel="noopener">מדיניות הפרטיות</a>.</p>
           <button type="button" class="back" id="f-back">→ חזרה לבחירת התחום</button>
         </div>
 
@@ -473,6 +490,13 @@ h1 em{font-style:normal;color:var(--champagne)}
       <a href="#offer" data-go="offer">סצנה בחינם</a>
     </nav>
     <span>© <span dir="ltr">2026</span> Netora Studio · אתרים קולנועיים לנדל״ן, מלונות ובריכות</span>
+    <nav class="foot-legal" aria-label="מסמכים משפטיים">
+      <a href="accessibility.html">הצהרת נגישות</a>
+      <a href="privacy.html">מדיניות פרטיות</a>
+      <a href="cookies.html">מדיניות עוגיות</a>
+      <a href="terms.html">תנאי שימוש</a>
+    </nav>
+    <p class="foot-note">הפרויקטים בדף הם עבודות הדגמה ותדמית של Netora Studio. התמונות והסרטים הם הדמיות, וחלקן נוצרו בכלי בינה מלאכותית. הם לא מהווים הצעה לרכישה, לשכירה או להזמנה של נכס, חופשה או שירות.</p>
   </div>
 </footer>
 
@@ -505,7 +529,30 @@ function hasGL(){
   try { var c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); }
   catch(e){ return false; }
 }
-var STATIC = reduced || !hasGL() || typeof THREE === 'undefined';
+var stillPref = /(^|[?&])still=1(&|$)/.test(location.search);
+try { if (localStorage.getItem('netora-still') === '1') stillPref = true; } catch(e){}
+var canMove = !reduced && hasGL() && typeof THREE !== 'undefined';
+var STATIC = !canMove || stillPref;
+(function(){
+  var b = document.getElementById('motion');
+  if (!b || !canMove) return;
+  b.hidden = false;
+  var setLbl = function(on){
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    var t = on ? 'הפעלת התנועה בדף' : 'עצירת התנועה בדף';
+    b.setAttribute('aria-label', t); b.title = t;
+  };
+  setLbl(stillPref);
+  b.addEventListener('click', function(){
+    var want = !stillPref, saved = false;
+    try { if (want) localStorage.setItem('netora-still','1'); else localStorage.removeItem('netora-still'); saved = true; } catch(e){}
+    var q = location.search.replace(/[?&]still=1/,'').replace(/^&/,'?');
+    if (want && !saved) q = (q ? q + '&' : '?') + 'still=1';
+    window.scrollTo(0, 0);
+    var url = location.pathname + q;
+    if (url === location.pathname + location.search) location.reload(); else location.href = url;
+  });
+})();
 if (STATIC) docEl.classList.add('static');
 
 /* ---------------- timeline (units of scroll) ---------------- */
@@ -531,8 +578,12 @@ var uTarget = 0, uSm = 0, bTarget = 0, bSm = 0;
 function readScroll(){
   var y = window.scrollY || window.pageYOffset;
   uTarget = clamp((y - hero.offsetTop)/unitPx, 0, T_END + 0.5);
-  var hr = how.offsetHeight - H0;
-  bTarget = clamp((y - how.offsetTop)/(hr>1?hr:1), 0, 1);
+  if (STATIC){
+    bTarget = clamp((y + H0*0.8 - how.offsetTop) / Math.max(how.offsetHeight*0.95, 1), 0, 1);
+  } else {
+    var hr = how.offsetHeight - H0;
+    bTarget = clamp((y - how.offsetTop)/(hr>1?hr:1), 0, 1);
+  }
 }
 window.addEventListener('scroll', readScroll, {passive:true});
 readScroll(); uSm = uTarget; bSm = bTarget;
@@ -544,7 +595,7 @@ $$('[data-go]').forEach(function(a){
     var el = id==='top' ? null : document.getElementById(id);
     e.preventDefault();
     var y = 0;
-    if (id === 'works') y = hero.offsetTop + holdStart(0)*unitPx;
+    if (id === 'works') y = STATIC ? $('#works').getBoundingClientRect().top + (window.scrollY||0) - 70 : hero.offsetTop + (holdStart(0)+0.4)*unitPx;
     else if (el) y = el.getBoundingClientRect().top + (window.scrollY||0);
     window.scrollTo({top:y, behavior: reduced ? 'auto' : 'smooth'});
   });
@@ -581,11 +632,13 @@ setTimeout(finishLoader, 4500);
   });
   nameI.addEventListener('input', function(){ $('#e-name').textContent=''; refresh(); });
   phoneI.addEventListener('input', function(){ $('#e-phone').textContent=''; refresh(); });
+  $('#f-consent').addEventListener('change', function(){ $('#e-consent').textContent=''; });
   send.addEventListener('click', function(e){
     var ok = true;
     if (nameI.value.trim().length < 2){ $('#e-name').textContent = 'כתבו את השם, כדי שנדע איך לפנות אליכם'; ok = false; }
     var digits = phoneI.value.replace(/\D/g,'');
     if (digits.length < 9){ $('#e-phone').textContent = 'חסר מספר טלפון מלא, למשל 050-1234567'; ok = false; }
+    if (!$('#f-consent').checked){ $('#e-consent').textContent = 'צריך לסמן את האישור כדי שנוכל לחזור אליכם'; ok = false; }
     if (!ok){ e.preventDefault(); return; }
     refresh();
     try {
@@ -593,6 +646,7 @@ setTimeout(finishLoader, 4500);
         method:'POST', keepalive:true,
         headers:{'Content-Type':'application/json','Accept':'application/json'},
         body: JSON.stringify({'שם': nameI.value.trim(), 'טלפון': phoneI.value.trim(), 'תחום': sector || 'לא נבחר',
+          'אישור מדיניות פרטיות': 'כן, ' + new Date().toLocaleString('he-IL'),
           _subject:'פנייה חדשה מדף הנחיתה של Netora', _template:'table', _captcha:'false'})
       }).catch(function(){});
     } catch(err){}
@@ -611,7 +665,7 @@ setTimeout(finishLoader, 4500);
 })();
 
 /* ---------------- dock ---------------- */
-var dock = $('#dock'), offerVisible = false;
+var dock = $('#dock'), topBar = $('.top'), offerVisible = false;
 if ('IntersectionObserver' in window){
   new IntersectionObserver(function(es){ offerVisible = es[0].isIntersecting; }, {threshold:0.12}).observe(offer);
 }
@@ -689,6 +743,7 @@ if (STATIC){
     bSm += (bTarget-bSm)*(1-Math.exp(-dt*9));
     build.update(dt, bSm);
     dock.classList.toggle('show', (window.scrollY||0) > H0*0.8 && !offerVisible);
+    topBar.classList.toggle('solid', (window.scrollY||0) > 60);
     requestAnimationFrame(loopS);
   })(lastS);
   window.addEventListener('resize', function(){ build.size(); });
@@ -1031,7 +1086,7 @@ function overlays(u){
   var io = 1 - sstep(0.5, 1.15, u);
   intro.style.opacity = io.toFixed(3);
   intro.style.transform = 'translate3d(0,' + (-(1-io)*26).toFixed(1) + 'px,0)';
-  intro.style.visibility = io < 0.01 ? 'hidden' : 'visible';
+  intro.style.pointerEvents = io < 0.5 ? 'none' : '';
   var active = -1;
   for (var k=0;k<N;k++){
     var hs = holdStart(k);
@@ -1051,7 +1106,17 @@ function overlays(u){
   rail.style.opacity = (sstep(T_IN-0.4, T_IN, u) * (1 - sstep(T_EXIT0, T_EXIT0+0.4, u))).toFixed(3);
   veil.style.opacity = (sstep(T_EXIT0+0.25, T_END, u)*(L.mobile ? 0.8 : 0.84)).toFixed(3);
   dock.classList.toggle('show', u > T_FLY0 + 0.3 && !offerVisible);
+  topBar.classList.toggle('solid', u > T_EXIT0 + 0.6);
 }
+
+/* keyboard / screen-reader focus scrolls to the chapter that holds it */
+works.forEach(function(el, k){
+  el.addEventListener('focusin', function(){
+    var y = hero.offsetTop + (holdStart(k) + 0.4)*unitPx;
+    if (Math.abs((window.scrollY||0) - y) > unitPx*0.3) window.scrollTo(0, y);
+  });
+});
+intro.addEventListener('focusin', function(){ if ((window.scrollY||0) > hero.offsetTop + unitPx*0.4) window.scrollTo(0, hero.offsetTop); });
 
 /* ---------------- pointer parallax (desktop) ---------------- */
 var ptr = {x:0, y:0}, ptrSm = {x:0, y:0};
